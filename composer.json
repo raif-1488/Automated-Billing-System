@@ -1,0 +1,10 @@
+{
+    "require": {
+        "giggsey/libphonenumber-for-php": "^9.0",
+        "ramsey/uuid": "^4.8",
+        "ircmaxell/random-lib": "^1.2",
+        "ircmaxell/security-lib": "^1.1",
+        "phpmailer/phpmailer": "^6.10",
+        "pusher/pusher-php-server": "^7.2"
+    }
+}
