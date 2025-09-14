@@ -1,171 +1,129 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-...hash..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
+/* Sidebar container */
 .sidebar {
     position: fixed;
+    top: 0;
+    left: 0;
     height: 100vh;
-    width: 170px;
-    color: #ccc;
+    width: 160px;
+    background: #ffffff;
+    color: #333;
     font-family: Arial, sans-serif;
-    padding-top: 15px;
-    transition: left 0.3s ease;
-    overflow: visible;   /*to make edges appear rounded even when collapsed*/
-    border-right: 1px solid #ddd;
+    padding: 15px 10px;
+    transition: width 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);  /* smoother separation */
+    border-right: 1px solid #eee;
+    z-index: 1000;
+    overflow: hidden;
 }
 
-
-.sidebar i {
-    margin-right: 10px;
-}
-
-
+/* Collapsed sidebar */
 .sidebar.collapsed {
     width: 60px;
 }
 
-
+/* Sidebar logo */
 .sidebar .logo {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
 }
-
 
 .sidebar img {
-    width: 90px;
-    height: 40px;
-    margin-right: 20px;
-    /* transition: opacity 0.3s ease, transform 0.3s ease; */
+    width: 100px;
+    max-height: 45px;
+    object-fit: contain;
+    transition: all 0.3s ease;
 }
 
+.sidebar.collapsed img {
+    width: 35px;
+    opacity: 0.9;
+}
 
+/* Sidebar nav */
 .sidebar ul {
     list-style: none;
-    padding: 5px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .sidebar li {
-    display: flex;
-    /* gap: 0px; */
-    padding: 10px 0px;
-    font-size: 16px;
-    color: #aaa;
-   
+    margin: 10px 0;
 }
 
 .sidebar .nav-link {
-    color: #aaa !important;
+    color: #555 !important;
     text-decoration: none !important;
-    display: block;     /*previously it was flex i.e.was wrapped around container*/ 
-    padding: 10px 8px; /*12px 15px*/
-    width: 90%;         /*Ensures full width*/
+    display: flex;
+    align-items: center;
+    padding: 10px;
     border-radius: 8px;
-    /* transition: left 0.3s ease; */
-    
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 15px;
 }
 
-.sidebar.collapsed .nav-link {
-    padding: 8px ;
-    justify-content: center;
+.sidebar .nav-link i {
+    min-width: 25px;
+    text-align: center;
 }
 
+/* Hover and Active */
 .sidebar .nav-link:hover {
-    background-color: #e0e0e0;
-    color: rgb(249, 249, 249) !important;
+    background: #f5f5f5;
+    color: #222 !important;
 }
 
 .sidebar .nav-link.active {
-      background-color: #F4C430;
-      color: white;
-      font-weight: 600;
-      
-    }
-
-
-.toggle-btn {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer; 
-    width: 90%;
-    text-align: center;
-    display: block;
-    margin-right:3px;
-    /* transition: left 0.3s ease; */
-    
+    background-color: #F4C430;
+    color: #fff !important;
+    font-weight: 600;
 }
 
-.toggle-icon {
-    font-size: 20px;
-}
-
+/* Collapsed: hide labels, keep icons */
 .sidebar.collapsed .label {
     display: none;
 }
 
-.sidebar.collapsed img {
-    /* display: none; */
-    opacity: 0;
+/* Toggle button */
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+body.sidebar-collapsed .sidebar {
+    width: 60px;
 }
 
 </style>
 
-
-
 <div class="sidebar" id="sidebar">
     <div class="logo">
         <button class="toggle-btn" onclick="toggleSidebar()">
-            <span class="toggle-icon">☰</span> 
+            <i class="fas fa-bars"></i>
         </button>
-        <img src="/automate-billing/images/brand-logo.jpg" alt="Logo">  
-                
+        <img src="/automate-billing/images/logo.jpg" alt="Logo">  
     </div>
-    
 
     <ul class="nav flex-column small">
-        <li class="nav-item">
-            <a class="nav-link sidebar-link <?php if (str_contains($currentPage, 'dashboard') !== false) echo 'active'; ?>" href="admin-dashboard.php" >
-            <i class="fas fa-home me-2"></i> <span class="label">Dashboard</span>
-            </a>
-        </li>
-        
-        <li class="nav-item">
-            <a class="nav-link sidebar-link <?php if (str_contains($currentPage, 'consumer') !== false) echo 'active'; ?>" href="consumers.php">
-            <i class="fas fa-users me-2"></i> <span class="label">Consumers</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link sidebar-link <?php if (str_contains($currentPage, 'service') !== false) echo 'active'; ?>" href="services.php">
-            <i class="fas fa-cogs me-2"></i> <span class="label">Services</span>
-            </a>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link sidebar-link <?php if (str_contains($currentPage, 'order') !== false) echo 'active'; ?>" href="order.php">
-            <i class="fas fa-shopping-cart me-2"></i> <span class="label">Orders</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link sidebar-link <?php if (str_contains($currentPage, 'record') !== false) echo 'active'; ?>" href="record.php">
-            <i class="fas fa-money-bill-wave"></i> <span class="label">Transactions</span>
-            </a>
-        </li>
-
-        
-   </ul>
-   
+        <li><a class="nav-link <?php if (str_contains($currentPage, 'dashboard')) echo 'active'; ?>" href="admin-dashboard.php"><i class="fas fa-home"></i> <span class="label">Dashboard</span></a></li>
+        <li><a class="nav-link <?php if (str_contains($currentPage, 'consumer')) echo 'active'; ?>" href="consumers.php"><i class="fas fa-users"></i> <span class="label">Consumers</span></a></li>
+        <li><a class="nav-link <?php if (str_contains($currentPage, 'service')) echo 'active'; ?>" href="services.php"><i class="fas fa-cogs"></i> <span class="label">Services</span></a></li>
+        <li><a class="nav-link <?php if (str_contains($currentPage, 'order')) echo 'active'; ?>" href="order.php"><i class="fas fa-shopping-cart"></i> <span class="label">Orders</span></a></li>
+        <li><a class="nav-link <?php if (str_contains($currentPage, 'record')) echo 'active'; ?>" href="record.php"><i class="fas fa-money-bill-wave"></i> <span class="label">Transactions</span></a></li>
+    </ul>
 </div>
 
 <script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const body = document.body;
-        sidebar.classList.toggle('collapsed');
-        body.classList.toggle('sidebar-collapsed');
-    }
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('collapsed');
+}
 </script>
