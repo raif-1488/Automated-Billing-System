@@ -110,6 +110,13 @@ Contributions and suggestions are welcome via pull requests.
 ### 1. Admin Dashboard
 ![Admin Dashboard] (images/Screenshot 2025-09-14 173541.png)
 
-### 2. Consumer Dashboard
-![Consumer Dashboard] (images/Screenshot 2025-09-14 175934.png)
+### 2. Consumer login page
+![Consumer Login] (images/Screenshot 2025-09-14 175934.png)
+
+### 3. Consumer Dashboard
+![Consumer Dashboard] (images/Screenshot 2025-09-14 181347.png)
+
+### 4. Consumer Payment
+![Consumer Payment] (images/Screenshot 2025-09-14 181347.png)
+
 
