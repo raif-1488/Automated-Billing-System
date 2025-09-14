@@ -108,4 +108,4 @@ Contributions and suggestions are welcome via pull requests.
 ---
 
 ### 1. Admin Dashboard
-<img width="1901" height="822" alt="Screenshot 2025-09-14 173541" src="https://github.com/user-attachments/assets/81058e0e-e700-4120-9822-43d7e44d9dab" />
+![Admin Dashboard](images/admin-dashboard.png)
