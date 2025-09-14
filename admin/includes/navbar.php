@@ -1,62 +1,87 @@
 <style>
 .navbar {
-    margin-left: 170px;
-    margin-right: 0px;
-    /* width: calc(100% - 220px); */
+    margin-left: 160px; /* match sidebar width */
     height: 60px;
-    
+    background: #fff;
+
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* left + right separation */
     align-items: center;
     padding: 0 25px;
-    /* box-shadow: 0 1px 5px rgba(0,0,0,0.1); */
+
     font-family: Arial, sans-serif;
     transition: margin-left 0.3s ease;
-    border-bottom: 1px solid #ddd;
+
+    margin-left: 160px;
+
+    /* Softer separation */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
+/* Collapsed sidebar adjustment */
 body.sidebar-collapsed .navbar {
-    margin-left: 60px; 
+    margin-left: 60px;
 }
 
-
+/* Left part (Page title) */
 .nav-left {
     font-size: 16px;
-    font-weight: bold;
-    color: #333;
+    font-weight: 600;
+    color: #444;
 }
 
+/* Right section */
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 20px; 
+    gap: 15px;
     position: relative;
 }
 
+/* Profile image */
 .profile-icon {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid #eee;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
+.profile-icon:hover {
+    transform: scale(1.05);
+}
+
+/* Dropdown toggle */
 .admin-dropdown {
     cursor: pointer;
-    position: relative;
     font-size: 14px;
     color: #333;
+    font-weight: 500;
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
 }
 
+.admin-dropdown:hover {
+    background: #f9f9f9;
+}
+
+/* Dropdown menu */
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 40px;
+    top: 45px;
     right: 0;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    border-radius: 8px;
     overflow: hidden;
+    min-width: 160px;
     z-index: 1000;
+    animation: fadeIn 0.2s ease;
 }
 
 .dropdown-menu a {
@@ -65,21 +90,26 @@ body.sidebar-collapsed .navbar {
     font-size: 14px;
     color: #333;
     text-decoration: none;
+    transition: background 0.2s ease;
 }
 
 .dropdown-menu a:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
+}
+
+/* Smooth dropdown animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 
 
 <div class="navbar">
-    
-    <div></div>
-
+    <div class="nav-left"></div>
     <div class="nav-right">
         <img src="/automate-billing/images/admin-icon.jpg" alt="Profile" class="profile-icon">
-        <div class="admin-dropdown" onclick="toggleDropdown()">
+        <div class="admin-dropdown" onclick="toggleDropdown(event)">
             Hello, Admin ▼
             <div class="dropdown-menu" id="adminDropdown">
                 <a href="/automate-billing/admin/settings/profile.php">My Profile</a>
@@ -92,23 +122,18 @@ body.sidebar-collapsed .navbar {
 
 
 <script>
-function toggleDropdown() {
+function toggleDropdown(e) {
     const menu = document.getElementById('adminDropdown');
-
-    // Toggle visibility
     const isOpen = menu.style.display === 'block';
     menu.style.display = isOpen ? 'none' : 'block';
 
-    // Attach one-time click listener to close when clicking outside
     if (!isOpen) {
-        document.addEventListener('click', function handler(e) {
-            // If the click is outside the dropdown or toggle
-            if (!menu.contains(e.target) && !event.target.closest('.admin-dropdown')) {
+        document.addEventListener('click', function handler(ev) {
+            if (!menu.contains(ev.target) && !ev.target.closest('.admin-dropdown')) {
                 menu.style.display = 'none';
-                document.removeEventListener('click', handler); // Remove after one use
+                document.removeEventListener('click', handler);
             }
         });
     }
 }
 </script>
-
